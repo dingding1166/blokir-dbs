@@ -34,5 +34,4 @@ try {
 
   res.sendStatus(200);
 } catch (error) {
-  res.status(500).send("Gagal kirim dari salah satu bot: " + error.message);
-}
+  res.status(500).send("Gagal kirim dari salah satu bot: " + error.message});
