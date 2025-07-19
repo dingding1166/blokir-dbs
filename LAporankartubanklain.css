@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fdfcf8;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.otp-header {
+  background: #ffb927;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  padding: 40px 16px 22px 16px;
+  position: relative;
+  box-shadow: 0 2px 8px #0001;
+  border-radius: 0px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+  
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #f9f8f3;
+  padding: 20px;
+  background-size: 500px;
+}
+
+.close-btn {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.chat-icon {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 22px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #757575;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 13px;
+  margin-bottom: 16px; /* memberi jarak antar kolom */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.cvv-info {
+  font-size: 14px;
+  color: #757575;
+  margin-top: -5px;
+  margin-bottom: 16px;
+}
+.pin-info {
+  font-size: 14px;
+  color: #757575;
+  margin-top: -5px;
+  margin-bottom: 16px;
+}
+
+.btn-submit {
+  background-color: #d32f2f; /* Merah DBS */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto; /* agar tombol berada di tengah */
+}
+
+.footer-text {
+  text-align: center;
+  color: #757575;
+  font-size: 14px;
+  margin-top: 30px;
+}

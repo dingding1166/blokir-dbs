@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #fcfbf7; /* Warna krem/orange krim bagian bawah */
+    font-family: 'Segoe UI', Arial, sans-serif;
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: #fff;   /* Atas putih */
+    padding: 25px 18px 25px 12px;
+    position: relative;
+    border-bottom: none;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+    color: #555;
+    padding: 0;
+}
+
+.logo-dbs {
+    height: 19px;
+    width: auto;
+    gap: 100px;
+    margin-left: 16px;
+    object-fit: contain;
+}
+    
+.judul {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: left;
+    color: #222;
+}    
+
+.garis-kuning {
+    width: 100%;
+    height: 4px;
+    background: #ffb300; /* Garis kuning/oranye */
+    margin: 0;
+    border-radius: 0 0 3px 3px;
+}
+
+.form-area {
+    background: #fcfbf7; /* Warna krem/orange krim bagian bawah */
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 36px 16px 16px 16px;
+    min-height: 300px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input[type="text"] {
+    padding: 12px 12px;
+    font-size: 12px;
+    border: none;
+    border-bottom: 1px solid orange;
+    border-radius: 0px;
+    background: #fff;
+    margin-bottom: 30px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.btn-batal {
+    background: none;
+    border: none;
+    color: #757575;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 10px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-lanjut {
+    background: #d32f2f;
+    color: #fff;
+    flex: 0;
+    padding: 10px 28px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+}
+
+btn-lanjut:hover {
+    background: #b71c1c;
+}
+
+.btn-batal:hover {
+    background: #ececec;
+}
+
+.copyright {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    margin: 230px 0 18px 0;
+}

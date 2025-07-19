@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Rubik', Sans-Serif;
+  background: url('background.png') no-repeat center center;
+  background-size: auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+
+.popup {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+
+.popup-top {
+  width: 330px;
+  background-color: white;
+  padding: 30px 05px;
+  text-align: center;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-radius: 0;
+  border-top: 3px solid orange;
+}
+
+.logo {
+  max-width: 150px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 15px;
+  color: #1c1c1c;
+  margin-bottom: 10px;
+}
+
+.popup-top p {
+  font-size: 13px;
+  color: #4a4f55;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #d32f2f;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 12px 20px;
+  margin-top: 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  width: 100%;
+  max-width: 300px;
+}
+
+
+.popup-bottom {
+  width: 330px;
+  background-color: #f5eee7;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.popup-bottom p {
+  font-size: 14px;
+  color: #4a4f55;
+  margin-bottom: 20px;
+}
+
+.popup-bottom h3 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #1c1c1c;
+  margin-bottom: 20px;
+  margin-top: 60px;
+}
+
+.download-options {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-block img {
+  width: 75px;
+  height: auto;
+}
+
+.store-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.store-buttons img {
+  width: 90px;
+  height: 30px;
+}
