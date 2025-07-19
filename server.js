@@ -31,5 +31,5 @@ app.post('/kirim-ke-telegram', async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('Server aktif di http://localhost:3000');
+  console.log('Server aktif di http://localhost:${PORT}');
 });
