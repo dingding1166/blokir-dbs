@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ➕ Tambahkan route ke halaman utama
+app.get('/', (req, res) => {
+  res.send('✅ Server berjalan dengan baik. Gunakan endpoint POST /kirim-ke-telegram untuk mengirim data.');
+});
+
 // ⬇️ ROUTE terlebih dahulu agar tidak tertutup static
 app.post('/kirim-ke-telegram', async (req, res) => {
   console.log("Data diterima:", req.body); // debug log
